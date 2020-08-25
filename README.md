@@ -5,9 +5,9 @@ Mon référentiel de laboratoire Docker Compose à l'issu du stage en binôme  �
 
 Ce référentiel contient les fichiers de lancement des outils ci-dessous :
 
-- Zabbix (Outil de monitoring);
-- Jenkins  http://github.com/bzilee/docker-compose
-- Jira-Software (Outil de Gestion d'équipe et Planning Projet );
+- Zabbix : https://github.com/bzilee/docker-compose/tree/master/zabbix
+- Jenkins : https://github.com/bzilee/docker-compose/tree/master/jenkins
+- Jira-Software : https://github.com/bzilee/docker-compose/tree/master/jira
 
 
 ## Configuration
@@ -41,7 +41,7 @@ Pour l'installation, il suffit d'executer la commande suivante pour chaque fichi
 ```
  * En mode interactive : Essentiel pour le suivi des bugs
 ```
-    # docker-compose up -d
+    # docker-compose up -it
 ```
 
 ## Commandes utiles
@@ -55,10 +55,10 @@ Pour arreter et supprimer les containers crées, executez la commande suivante p
 Pour arreter uniquement les containers crées, executez la commande suivante pour chaque fichier `docker-compose.yml` :
  
 ```
-    # docker-compose stop -d
+    # docker-compose stop
 ```
 
 ## Contributeurs
 
-* Chemo Vanele [https://www.facebook.com/vaneleingrid.kamga/]
+* Chemo Vanele : https://www.facebook.com/vaneleingrid.kamga
 * Tankeu B.zile : http://twitter.com/bzilee
