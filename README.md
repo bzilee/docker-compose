@@ -60,5 +60,5 @@ Pour arreter uniquement les containers crées, executez la commande suivante pou
 
 ## Contributeurs
 
-* Chemo Vanele [http:fb.com/]
+* Chemo Vanele [https://www.facebook.com/vaneleingrid.kamga/]
 * Tankeu B.zile : http://twitter.com/bzilee
