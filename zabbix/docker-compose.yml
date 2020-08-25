@@ -1,0 +1,234 @@
+version: "3.5"
+
+#Liste des servies
+services:
+
+  #Le service Zabbix Server
+  zabbix-server-mysql:
+    image: zabbix/zabbix-server-mysql:ubuntu-5.0-latest # --> zabbix/zabbix-server-mysql:ubuntu-5.0-latest --> zabbix/zabbix-server-mysql
+    ports:
+      - "10051:10051"
+    container_name: zabbix-server-mysql
+    volumes:
+      - ./zabbix_data/etc/localtime:/etc/localtime:ro
+      - ./zabbix_data/usr/lib/zabbix/alertscripts:/usr/lib/zabbix/alertscripts:ro
+      - ./zabbix_data/usr/lib/zabbix/externalscripts:/usr/lib/zabbix/externalscripts:ro
+      - ./zabbix_data/var/lib/zabbix/export:/var/lib/zabbix/export:rw
+      - ./zabbix_data/var/lib/zabbix/modules:/var/lib/zabbix/modules:ro
+      - ./zabbix_data/var/lib/zabbix/enc:/var/lib/zabbix/enc:ro
+      - ./zabbix_data/var/lib/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
+      - ./zabbix_data/var/lib/zabbix/mibs:/var/lib/zabbix/mibs:ro
+      - ./zabbix_data/snmptraps:/var/lib/zabbix/snmptraps:rw
+    links:
+      - zabbix-java-gateway:zabbix-java-gateway
+      - "mysql-server"
+    env_file:
+      - .env_mysql
+      - .env_zabbix
+  # secrets:
+  #   - client-key.pem
+  #   - client-cert.pem
+  #   - root-ca.pem
+    depends_on:
+      - zabbix-java-gateway
+    networks:
+      zbx_net_backend:
+        ipv4_address: 172.20.0.2
+        aliases:
+          - zabbix-server-mysql
+  # devices:
+  #   - "/dev/ttyUSB0:/dev/ttyUSB0"
+    restart: unless-stopped
+
+  
+  zabbix-web-nginx-mysql:
+    image: zabbix/zabbix-web-nginx-mysql:ubuntu-5.0-latest
+    ports:
+      - "80:8080"
+      - "443:443"
+    container_name: zabbix-web-nginx-mysql
+    links:
+      - zabbix-server-mysql:zabbix-server-mysql
+      - "mysql-server"
+    volumes:
+      - ./zabbix_data/etc/localtime:/etc/localtime:ro
+      - ./zabbix_data/etc/ssl/nginx:/etc/ssl/nginx:ro
+      - ./zabbix_data/usr/share/zabbix/modules/:/usr/share/zabbix/modules/:ro
+    env_file:
+      - .env_mysql
+      - .env_zabbix
+    #secrets:
+  #   - client-key.pem
+  #   - client-cert.pem
+  #   - root-ca.pem
+    depends_on:
+      - zabbix-server-mysql
+    networks:
+      zbx_net_backend:
+       ipv4_address: 172.20.0.3
+       aliases:
+        - zabbix-web-nginx-mysql
+      zbx_net_frontend:
+        ipv4_address: 192.168.43.147
+    stop_grace_period: 10s
+    sysctls:
+      - net.core.somaxconn=65535
+    restart: unless-stopped
+    tty: true
+   
+  zabbix-agent:
+    image: zabbix/zabbix-agent:ubuntu-5.0-latest
+    ports:
+     - "10050:10050"
+    container_name: zabbix-agent
+    volumes:
+     - ./zabbix_data/etc/localtime:/etc/localtime:ro
+     - ./zabbix_data/etc/zabbix/zabbix_agentd.d:/etc/zabbix/zabbix_agentd.d:ro
+     - ./zabbix_data/var/lib/zabbix/modules:/var/lib/zabbix/modules:ro
+     - ./zabbix_data/var/lib/zabbix/enc:/var/lib/zabbix/enc:ro
+     - ./zabbix_data/var/lib/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
+    links:
+     - zabbix-server-mysql:zabbix-server-mysql
+     - "mysql-server"
+    env_file:
+     - .env_zabbix
+    pid: "host"
+    networks:
+     zbx_net_backend:
+      ipv4_address: 172.20.0.4
+      aliases:
+       - zabbix-agent
+    stop_grace_period: 5s
+    restart: unless-stopped
+    tty: true
+
+  zabbix-java-gateway:
+    image: zabbix/zabbix-java-gateway:ubuntu-5.0-latest
+    ports:
+     - "10052:10052"
+    container_name:  zabbix-java-gateway
+    env_file:
+     - .env_zabbix
+    networks:
+     zbx_net_backend:
+      ipv4_address: 172.20.0.5
+      aliases:
+       - zabbix-java-gateway
+    stop_grace_period: 5s
+    restart: unless-stopped
+    tty: true
+
+  phpmyadmin:
+      image: phpmyadmin/phpmyadmin
+      ports:
+        - "8080:80"
+      container_name: phpmyadmin
+      env_file:
+       - .env_mysql
+      restart: unless-stopped
+      tty: true
+      links :
+        - "mysql-server"
+      volumes:
+       - "./phpmyadmin/session:/sessions"
+       #- "./phpmyadmin/php_ini:/usr/local/etc/php"
+       #- "./phpmyadmin/apache2_config:/etc/apache2"
+      networks:
+        zbx_net_frontend:
+          ipv4_address: 192.168.43.148
+          aliases:
+            - phpmyadmin
+        zbx_net_backend:
+          ipv4_address: 172.20.0.7
+          aliases:
+            - phpmyadmin
+
+      environment:
+        PMA_HOST: "mysql-server" # mysql-server
+
+  #Le service MySQL
+  mysql-server:
+    image: mysql
+    command:
+     - mysqld
+     - --character-set-server=utf8
+     - --collation-server=utf8_bin
+     - --default-authentication-plugin=mysql_native_password
+  #   - --require-secure-transport
+  #   - --ssl-ca=/run/secrets/root-ca.pem
+  #   - --ssl-cert=/run/secrets/server-cert.pem
+  #   - --ssl-key=/run/secrets/server-key.pem
+    volumes:
+      - "./mysql_data_zabbix/var/lib/mysql:/var/lib/mysql:rw"
+    env_file:
+     - .env_mysql
+    container_name: mysql-server
+    #secrets:
+  #   - server-key.pem
+  #   - server-cert.pem
+  #   - root-ca.pem
+  #  stop_grace_period: 1m
+    networks:
+     zbx_net_backend:
+      ipv4_address: 172.20.0.20
+      aliases:
+       - mysql-server
+    tty: true
+    #Cette ligne permet de résoudre le probleme de mbind: Operation not permitted
+    security_opt: 
+      - seccomp:unconfined
+    restart: unless-stopped
+  
+  #Le service Grafana
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    container_name: grafana
+    volumes:
+      - "./grafana_data:/var/lib/grafana:rw"
+    env_file:
+      - .env_grafana
+  # secrets:
+  #   - client-key.pem
+  #   - client-cert.pem
+  #   - root-ca.pem
+
+  # devices:
+  #   - "/dev/ttyUSB0:/dev/ttyUSB0"
+    restart: unless-stopped
+    tty: true
+    networks:
+     zbx_net_backend:
+      ipv4_address: 172.20.0.22
+      aliases:
+       - grafana
+
+networks:
+    zbx_net_frontend:
+      driver: macvlan
+      driver_opts:
+        parent: wlp2s0
+      ipam:
+        config:
+          - subnet: 192.168.43.0/24
+        #gateway: 192.168.1.1
+
+    zbx_net_backend:
+      driver: bridge
+      #internal: true
+      ipam:
+        config:
+          - subnet: 172.20.0.0/24
+
+#secrets:
+#  client-key.pem:
+#    file: ./.ZBX_DB_KEY_FILE
+#  client-cert.pem:
+#    file: ./.ZBX_DB_CERT_FILE
+#  root-ca.pem:
+#    file: ./.ZBX_DB_CA_FILE
+#  server-cert.pem:
+#    file: ./.DB_CERT_FILE
+#  server-key.pem:
+#    file: ./.DB_KEY_FILE
