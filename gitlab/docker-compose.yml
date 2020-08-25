@@ -1,0 +1,37 @@
+version: "3.6"
+
+#Liste des servies
+services:
+  #Le service GitLAb
+  gitlab:
+    image: gitlab/gitlab-ce
+    hostname: 'gitlab.lugar.com'
+    ports:
+      - "443:443"
+      - "80:80"
+      - "22"
+    container_name: gitlab
+    volumes:
+      - ./gitlab_data/data:/var/opt/gitlab
+      - ./gitlab_data/log:/var/log/gitlab
+      - ./gitlab_data/config:/etc/gitlab
+    links:
+      - zabbix-java-gateway:zabbix-java-gateway
+      - "mysql-server"
+    env_file:
+      - .env_mysql
+      - .env_zabbix
+    # secrets:
+    #   - client-key.pem
+    #   - client-cert.pem
+    #   - root-ca.pem
+    depends_on:
+      - zabbix-java-gateway
+    networks:
+      zbx_net_backend:
+        ipv4_address: 172.20.0.2
+        aliases:
+          - zabbix-server-mysql
+    # devices:
+    #   - "/dev/ttyUSB0:/dev/ttyUSB0"
+    restart: unless-stopped
