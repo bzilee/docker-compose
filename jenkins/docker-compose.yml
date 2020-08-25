@@ -3,24 +3,6 @@ version: "3.5"
 #Liste des servies
 services:
 
-  #Le service Jira
-  jira-soft:
-    image: atlassian/jira-software
-    container_name: jira-soft
-    env_file:
-      - .env_jira
-    volumes: 
-      - "./jira_data:/var/atlassian/application-data/jira"
-    ports: 
-      - "8082:8080"
-    networks:
-     zbx_net_backend:
-      ipv4_address: 172.21.0.2
-      aliases:
-       - jira-soft
-    restart: unless-stopped
-    tty: true
-
   #Le service Jenkins
   jenkins:
     image: jenkinsci/jenkins # jenkins/jenkins it is deprececiated
@@ -41,7 +23,7 @@ services:
     tty: true
 
   #Le service MySQL2
-  mysql-server-2:
+  mysql-server-3:
     image: mysql:5.7
     command:
      - mysqld
@@ -56,7 +38,7 @@ services:
       - "./mysql_data/var/lib/mysql:/var/lib/mysql:rw"
     env_file:
      - .env_mysql
-    container_name: mysql-server-2
+    container_name: mysql-server-3
     #secrets:
   #   - server-key.pem
   #   - server-cert.pem
@@ -66,7 +48,7 @@ services:
      zbx_net_backend:
       ipv4_address: 172.21.0.4
       aliases:
-       - mysql-server-2
+       - mysql-server-3
     #Cette ligne permet de résoudre le probleme de mbind: Operation not permitted
     security_opt: 
       - seccomp:unconfined
@@ -76,14 +58,14 @@ services:
   phpmyadmin:
       image: phpmyadmin/phpmyadmin
       ports:
-        - "8083:80"
+        - "8084:80"
       container_name: phpmyadmin-2
       env_file:
        - .env_mysql
       restart: unless-stopped
       tty: true
       links :
-        - "mysql-server-2"
+        - "mysql-server-3"
       volumes:
        - "./phpmyadmin/session:/sessions"
        #- "./phpmyadmin/php_ini:/usr/local/etc/php"
@@ -94,7 +76,7 @@ services:
           aliases:
             - phpmyadmin-2
       environment:
-        PMA_HOST: "mysql-server-2" # mysql-server
+        PMA_HOST: "mysql-server-3" # mysql-server
 networks:
 
     zbx_net_backend:

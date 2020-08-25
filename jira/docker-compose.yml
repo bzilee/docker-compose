@@ -21,25 +21,6 @@ services:
     restart: unless-stopped
     tty: true
 
-  #Le service Jenkins
-  jenkins:
-    image: jenkinsci/jenkins # jenkins/jenkins it is deprececiated
-    container_name: jenkins
-    env_file:
-      - .env_jenkins
-    volumes:
-      - ./jenkins_data:/var/jenkins_home
-    ports: 
-      - "8081:8080"
-      - "50000:50000"
-    networks:
-     zbx_net_backend:
-      ipv4_address: 172.21.0.3
-      aliases:
-       - jenkins
-    restart: unless-stopped
-    tty: true
-
   #Le service MySQL2
   mysql-server-2:
     image: mysql:5.7
