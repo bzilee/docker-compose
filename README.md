@@ -33,7 +33,7 @@ Avant de démarrer les conteneurs,
 
 ## Installation
 
-Pour l'installation, il suffit d'executer la commande suivante pour chaque fichier `docker-compose.yml` :
+Assurez-vous que vous êtes dans le même répertoire que `docker-compose.yml` et démarrez GitLab:
  
  * En arriere plan : Le prompt sera liberé.
 ```
