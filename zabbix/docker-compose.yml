@@ -68,7 +68,7 @@ services:
        ipv4_address: 172.21.0.9
        aliases:
         - zabbix-web-nginx-mysql
-      zbx_net_frontend:
+      net_frontend:
         ipv4_address: 192.168.43.147
     stop_grace_period: 10s
     sysctls:
