@@ -15,8 +15,8 @@ services:
       - "8081:8080"
       - "50000:50000"
     networks:
-     zbx_net_backend:
-      ipv4_address: 172.21.0.3
+     net_backend:
+      ipv4_address: 172.21.0.6
       aliases:
        - jenkins
     restart: unless-stopped
@@ -45,8 +45,8 @@ services:
   #   - root-ca.pem
   #  stop_grace_period: 1m
     networks:
-     zbx_net_backend:
-      ipv4_address: 172.21.0.4
+     net_backend:
+      ipv4_address: 172.21.0.7
       aliases:
        - mysql-server-3
     #Cette ligne permet de résoudre le probleme de mbind: Operation not permitted
@@ -71,17 +71,14 @@ services:
        #- "./phpmyadmin/php_ini:/usr/local/etc/php"
        #- "./phpmyadmin/apache2_config:/etc/apache2"
       networks:
-        zbx_net_backend:
+        net_backend:
           ipv4_address: 172.21.0.5
           aliases:
             - phpmyadmin-2
       environment:
         PMA_HOST: "mysql-server-3" # mysql-server
-networks:
 
-    zbx_net_backend:
-      driver: bridge
-      #internal: true
-      ipam:
-        config:
-          - subnet: 172.21.0.0/24
+networks:
+  net_backend:
+    external:
+      name: lugar_net_backend.21.0.0/24

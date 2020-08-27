@@ -32,8 +32,8 @@ services:
     depends_on:
       - zabbix-java-gateway
     networks:
-      zbx_net_backend:
-        ipv4_address: 172.20.0.2
+      net_backend:
+        ipv4_address: 172.21.0.8
         aliases:
           - zabbix-server-mysql
   # devices:
@@ -64,8 +64,8 @@ services:
     depends_on:
       - zabbix-server-mysql
     networks:
-      zbx_net_backend:
-       ipv4_address: 172.20.0.3
+      net_backend:
+       ipv4_address: 172.21.0.9
        aliases:
         - zabbix-web-nginx-mysql
       zbx_net_frontend:
@@ -94,8 +94,8 @@ services:
      - .env_zabbix
     pid: "host"
     networks:
-     zbx_net_backend:
-      ipv4_address: 172.20.0.4
+     net_backend:
+      ipv4_address: 172.21.0.10
       aliases:
        - zabbix-agent
     stop_grace_period: 5s
@@ -110,8 +110,8 @@ services:
     env_file:
      - .env_zabbix
     networks:
-     zbx_net_backend:
-      ipv4_address: 172.20.0.5
+     net_backend:
+      ipv4_address: 172.21.0.11
       aliases:
        - zabbix-java-gateway
     stop_grace_period: 5s
@@ -134,15 +134,14 @@ services:
        #- "./phpmyadmin/php_ini:/usr/local/etc/php"
        #- "./phpmyadmin/apache2_config:/etc/apache2"
       networks:
-        zbx_net_frontend:
+        net_frontend:
           ipv4_address: 192.168.43.148
           aliases:
             - phpmyadmin
-        zbx_net_backend:
-          ipv4_address: 172.20.0.7
+        net_backend:
+          ipv4_address: 172.21.0.12
           aliases:
             - phpmyadmin
-
       environment:
         PMA_HOST: "mysql-server" # mysql-server
 
@@ -169,8 +168,8 @@ services:
   #   - root-ca.pem
   #  stop_grace_period: 1m
     networks:
-     zbx_net_backend:
-      ipv4_address: 172.20.0.20
+     net_backend:
+      ipv4_address: 172.21.0.13
       aliases:
        - mysql-server
     tty: true
@@ -193,19 +192,18 @@ services:
   #   - client-key.pem
   #   - client-cert.pem
   #   - root-ca.pem
-
   # devices:
   #   - "/dev/ttyUSB0:/dev/ttyUSB0"
     restart: unless-stopped
     tty: true
     networks:
-     zbx_net_backend:
-      ipv4_address: 172.20.0.22
+     net_backend:
+      ipv4_address: 172.21.0.14
       aliases:
        - grafana
 
 networks:
-    zbx_net_frontend:
+    net_frontend:
       driver: macvlan
       driver_opts:
         parent: wlp2s0
@@ -214,12 +212,12 @@ networks:
           - subnet: 192.168.43.0/24
         #gateway: 192.168.1.1
 
-    zbx_net_backend:
+    net_backend:
       driver: bridge
       #internal: true
       ipam:
         config:
-          - subnet: 172.20.0.0/24
+          - subnet: 172.21.0.0/24
 
 #secrets:
 #  client-key.pem:

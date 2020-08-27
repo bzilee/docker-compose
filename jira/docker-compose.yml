@@ -4,7 +4,7 @@ version: "3.5"
 services:
 
   #Le service Jira
-  jira-soft:
+  jira:
     image: atlassian/jira-software
     container_name: jira-soft
     env_file:
@@ -14,15 +14,15 @@ services:
     ports: 
       - "8082:8080"
     networks:
-     zbx_net_backend:
-      ipv4_address: 172.21.0.2
+     net_backend:
+      ipv4_address: 172.21.0.5
       aliases:
        - jira-soft
     restart: unless-stopped
     tty: true
 
   #Le service MySQL2
-  mysql-server-2:
+  mysql-server:
     image: mysql:5.7
     command:
      - mysqld
@@ -44,7 +44,7 @@ services:
   #   - root-ca.pem
   #  stop_grace_period: 1m
     networks:
-     zbx_net_backend:
+     net_backend:
       ipv4_address: 172.21.0.4
       aliases:
        - mysql-server-2
@@ -68,20 +68,14 @@ services:
         - "mysql-server-2"
       volumes:
        - "./phpmyadmin/session:/sessions"
-       #- "./phpmyadmin/php_ini:/usr/local/etc/php"
-       #- "./phpmyadmin/apache2_config:/etc/apache2"
       networks:
-        zbx_net_backend:
-          ipv4_address: 172.21.0.5
+        net_backend:
+          ipv4_address: 172.21.0.3
           aliases:
             - phpmyadmin-2
       environment:
         PMA_HOST: "mysql-server-2" # mysql-server
 networks:
-
-    zbx_net_backend:
-      driver: bridge
-      #internal: true
-      ipam:
-        config:
-          - subnet: 172.21.0.0/24
+  net_backend:
+    external:
+      name: lugar_net_backend
