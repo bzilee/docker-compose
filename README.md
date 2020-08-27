@@ -1,5 +1,5 @@
 # Docker Compose Files
-Mon référentiel de laboratoire Docker Compose à l'issu du stage en binôme  à Lugar Sarl.
+Un référentiel de laboratoire Docker Compose à l'issu du stage en binôme  à Lugar Sarl.
 
 ##  Introduction
 
