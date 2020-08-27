@@ -5,7 +5,7 @@ services:
 
   #Le service Jenkins
   jenkins:
-    image: jenkinsci/jenkins # jenkins/jenkins it is deprececiated
+    image: jenkins/jenkins
     container_name: jenkins
     env_file:
       - .env_jenkins
