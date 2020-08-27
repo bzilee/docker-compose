@@ -35,3 +35,8 @@ services:
     # devices:
     #   - "/dev/ttyUSB0:/dev/ttyUSB0"
     restart: unless-stopped
+
+networks:
+  default:
+    external:
+      name: v4_zbx_net_backend
