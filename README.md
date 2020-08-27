@@ -24,7 +24,7 @@ Avant de démarrer les conteneurs,
 
 * Pour Jenkens : 
 ```shel
-    # chown -R 1000:1000 jenkens_data
+    # chown -R 1000:1000 jenkins_data
 ```
 
 * Pour Grafana : 
