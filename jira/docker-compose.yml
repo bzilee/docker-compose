@@ -64,8 +64,6 @@ services:
        - .env_mysql
       restart: unless-stopped
       tty: true
-      links :
-        - "mysql-server-2"
       volumes:
        - "./phpmyadmin/session:/sessions"
       networks:

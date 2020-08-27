@@ -59,7 +59,7 @@ services:
       image: phpmyadmin/phpmyadmin
       ports:
         - "8084:80"
-      container_name: phpmyadmin-2
+      container_name: phpmyadmin-3
       env_file:
        - .env_mysql
       restart: unless-stopped
@@ -72,9 +72,9 @@ services:
        #- "./phpmyadmin/apache2_config:/etc/apache2"
       networks:
         net_backend:
-          ipv4_address: 172.21.0.5
+          ipv4_address: 172.21.0.15
           aliases:
-            - phpmyadmin-2
+            - phpmyadmin-3
       environment:
         PMA_HOST: "mysql-server-3" # mysql-server
 
