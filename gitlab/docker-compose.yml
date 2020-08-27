@@ -15,28 +15,17 @@ services:
       - ./gitlab_data/data:/var/opt/gitlab
       - ./gitlab_data/log:/var/log/gitlab
       - ./gitlab_data/config:/etc/gitlab
-    links:
-      - zabbix-java-gateway:zabbix-java-gateway
-      - "mysql-server"
+
     env_file:
-      - .env_mysql
-      - .env_zabbix
-    # secrets:
-    #   - client-key.pem
-    #   - client-cert.pem
-    #   - root-ca.pem
-    depends_on:
-      - zabbix-java-gateway
+      - .env_projectname
     networks:
-      zbx_net_backend:
-        ipv4_address: 172.20.0.2
+      net_backend:
+        ipv4_address: 172.21.0.2
         aliases:
-          - zabbix-server-mysql
-    # devices:
-    #   - "/dev/ttyUSB0:/dev/ttyUSB0"
+          - gitlab
     restart: unless-stopped
 
 networks:
-  default:
+  net_backend:
     external:
-      name: v4_zbx_net_backend
+      name: lugar_net_backend
