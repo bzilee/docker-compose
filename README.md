@@ -8,6 +8,7 @@ Ce référentiel contient les fichiers de lancement des outils ci-dessous :
 - Zabbix : https://github.com/bzilee/docker-compose/tree/master/zabbix
 - Jenkins : https://github.com/bzilee/docker-compose/tree/master/jenkins
 - Jira-Software : https://github.com/bzilee/docker-compose/tree/master/jira
+- Gitlab : https://github.com/bzilee/docker-compose/tree/master/gitlab
 
 
 ## Configuration
