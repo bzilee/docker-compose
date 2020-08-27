@@ -17,7 +17,7 @@ services:
       - ./gitlab_data/config:/etc/gitlab
 
     env_file:
-      - .env_projectname
+      - .env
     networks:
       net_backend:
         ipv4_address: 172.21.0.2
