@@ -6,3 +6,7 @@
 ./zabbix/mysql_data_zabbix
 ./zabbix/phpmyadmin
 ./zabbix/zabbix_data
+
+./jenkins/jenkins_data
+./jenkins/mysql_data
+./jenkins/phpmyadmin
