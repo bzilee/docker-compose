@@ -19,16 +19,19 @@ Avant de démarrer les conteneurs,
  
 * Pour Jira-Soft : 
 ```shel
+    # mkdir jira_data
     # chown -R 2001:2001 jira_data
 ```
 
 * Pour Jenkins : 
 ```shel
-    # chown -R 1000:1000 jenkins_data
+    # mkdir jenkins_data
+    # chown -R 1000 jenkins_data
 ```
 
 * Pour Grafana : 
 ```shel
+    # mkdir grafana_data
     # chown -R 472:472 grafana_data
 ```
 
