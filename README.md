@@ -22,7 +22,7 @@ Avant de démarrer les conteneurs,
     # chown -R 2001:2001 jira_data
 ```
 
-* Pour Jenkens : 
+* Pour Jenkins : 
 ```shel
     # chown -R 1000:1000 jenkins_data
 ```
