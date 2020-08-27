@@ -81,4 +81,4 @@ services:
 networks:
   net_backend:
     external:
-      name: lugar_net_backend.21.0.0/24
+      name: lugar_net_backend
