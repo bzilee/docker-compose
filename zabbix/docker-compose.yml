@@ -51,7 +51,7 @@ services:
       - zabbix-server-mysql:zabbix-server-mysql
       - "mysql-server"
     volumes:
-      - ./zabbix_data/etc/localtime:/etc/localtime:ro
+      -  /etc/localtime:/etc/localtime:ro
       - ./zabbix_data/etc/ssl/nginx:/etc/ssl/nginx:ro
       - ./zabbix_data/usr/share/zabbix/modules/:/usr/share/zabbix/modules/:ro
     env_file:
