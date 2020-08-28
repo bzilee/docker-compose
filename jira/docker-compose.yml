@@ -12,7 +12,7 @@ services:
     volumes: 
       - "./jira_data:/var/atlassian/application-data/jira"
     ports: 
-      - "2000:8080"
+      - "1000:8080"
     networks:
      net_backend:
       ipv4_address: 172.21.0.5
