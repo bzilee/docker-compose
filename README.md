@@ -45,7 +45,7 @@ Assurez-vous que vous êtes dans le même répertoire que `docker-compose.yml` e
 ```
  * En mode interactive : Essentiel pour le suivi des bugs
 ```
-    # docker-compose up -it
+    # docker-compose up
 ```
 
 ## Commandes utiles
