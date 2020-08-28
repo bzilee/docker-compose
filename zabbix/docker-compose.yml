@@ -68,7 +68,7 @@ services:
        aliases:
         - zabbix-web-nginx-mysql
       net_frontend:
-        ipv4_address: 192.168.43.147
+        ipv4_address: 192.168.2.147
     stop_grace_period: 10s
     sysctls:
       - net.core.somaxconn=65535
@@ -134,7 +134,7 @@ services:
        #- "./phpmyadmin/apache2_config:/etc/apache2"
       networks:
         net_frontend:
-          ipv4_address: 192.168.43.148
+          ipv4_address: 192.168.2.148
           aliases:
             - phpmyadmin
         net_backend:
@@ -208,7 +208,7 @@ networks:
         parent: wlp2s0
       ipam:
         config:
-          - subnet: 192.168.43.0/24
+          - subnet: 192.168.2.0/24
         #gateway: 192.168.1.1
 
     net_backend:

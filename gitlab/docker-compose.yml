@@ -41,6 +41,8 @@ services:
     env_file:
       - .env_mysql
     container_name: mysql-server-4
+    ports:
+      - "3306:3306"
     #secrets:
     #   - server-key.pem
     #   - server-cert.pem
@@ -60,7 +62,7 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
-      - "8085:80"
+      - "8084:80"
     container_name: phpmyadmin-4
     env_file:
       - .env_mysql

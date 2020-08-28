@@ -12,7 +12,7 @@ services:
     volumes:
       - ./jenkins_data:/var/jenkins_home
     ports: 
-      - "8081:8080"
+      - "2000:8080"
       - "50000:50000"
     networks:
      net_backend:
@@ -44,6 +44,8 @@ services:
   #   - server-cert.pem
   #   - root-ca.pem
   #  stop_grace_period: 1m
+    ports:
+      - "3306:3306"
     networks:
      net_backend:
       ipv4_address: 172.21.0.7
@@ -58,7 +60,7 @@ services:
   phpmyadmin:
       image: phpmyadmin/phpmyadmin
       ports:
-        - "8084:80"
+        - "8083:80"
       container_name: phpmyadmin-3
       env_file:
        - .env_mysql
