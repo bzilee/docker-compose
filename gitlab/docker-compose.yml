@@ -57,6 +57,42 @@ services:
       - seccomp:unconfined
     restart: unless-stopped
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8085:80"
+    container_name: phpmyadmin-4
+    env_file:
+      - .env_mysql
+    restart: unless-stopped
+    tty: true
+    links:
+      - "mysql-server-3"
+    volumes:
+      - "./phpmyadmin/session:/sessions"
+      #- "./phpmyadmin/php_ini:/usr/local/etc/php"
+      #- "./phpmyadmin/apache2_config:/etc/apache2"
+    networks:
+      net_backend:
+        ipv4_address: 172.21.0.17
+        aliases:
+          - phpmyadmin-4
+    environment:
+      PMA_HOST: "mysql-server-3" # mysql-server
+
+  gitlab-runner:
+    image: gitlab/gitlab-runner:latest
+    container_name: gitlab-runner
+    volumes:
+      - ./gitlab_data/srv/gitlab-runner/config:/etc/gitlab-runner
+      - ./gitlab_data/var/run/docker.sock:/var/run/docker.sock
+    networks:
+      net_backend:
+        ipv4_address: 172.21.0.18
+        aliases:
+          - gitlab-runner
+    restart: unless-stopped
+    tty: true
 networks:
   net_backend:
     external:

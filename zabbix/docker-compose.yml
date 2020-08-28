@@ -40,7 +40,6 @@ services:
   #   - "/dev/ttyUSB0:/dev/ttyUSB0"
     restart: unless-stopped
 
-  
   zabbix-web-nginx-mysql:
     image: zabbix/zabbix-web-nginx-mysql:ubuntu-5.0-latest
     ports:
