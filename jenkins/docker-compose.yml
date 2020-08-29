@@ -57,7 +57,7 @@ services:
     restart: unless-stopped
     tty: true
 
-  phpmyadmin:
+  phpmyadmin-3:
       image: phpmyadmin/phpmyadmin
       ports:
         - "8083:80"

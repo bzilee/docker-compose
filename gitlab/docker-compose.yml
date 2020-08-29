@@ -25,7 +25,7 @@ services:
           - gitlab
     restart: unless-stopped
 
-  mysql-server:
+  mysql-server-4:
     image: mysql
     command:
       - mysqld
@@ -59,7 +59,7 @@ services:
       - seccomp:unconfined
     restart: unless-stopped
 
-  phpmyadmin:
+  phpmyadmin-4:
     image: phpmyadmin/phpmyadmin
     ports:
       - "8084:80"
