@@ -121,7 +121,7 @@ services:
       image: phpmyadmin/phpmyadmin
       ports:
         - "8080:80"
-      container_name: phpmyadmin-1
+      container_name: phpmyadmin
       env_file:
        - .env_mysql
       restart: unless-stopped
@@ -136,11 +136,11 @@ services:
         net_frontend:
           ipv4_address: 192.168.2.148
           aliases:
-            - phpmyadmin-1
+            - phpmyadmin
         net_backend:
           ipv4_address: 172.21.0.12
           aliases:
-            - phpmyadmin-1
+            - phpmyadmin
       environment:
         PMA_HOST: "mysql-server" # mysql-server
 
