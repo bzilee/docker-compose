@@ -7,15 +7,17 @@ services:
     image: gitlab/gitlab-ce
     hostname: 'gitlab.lugar.com'
     ports:
-      - "443:443"
-      - "80:80"
-      - "22"
+      - "8443:443" #Accès par HTTPS
+      - "4000:80" #Accès par HTTP
+      - "22" #Accès par SSH
     container_name: gitlab
     volumes:
       - ./gitlab_data/data:/var/opt/gitlab
       - ./gitlab_data/log:/var/log/gitlab
       - ./gitlab_data/config:/etc/gitlab
-
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        gitlab_rails['gitlab_shell_ssh_port'] = 22
     env_file:
       - .env
     networks:
@@ -24,6 +26,20 @@ services:
         aliases:
           - gitlab
     restart: unless-stopped
+
+  gitlab-database:
+    image: postgres
+    container_name: gitlab_database
+    restart: unless-stopped
+    net_backend:
+      ipv4_address: 172.21.0.18
+      aliases:
+        - gitlab-database
+    environment:
+      POSTGRES_PASSWORD: "Lugar2020"
+      POSTGRES_DB: gitlab
+    volumes:
+      - /srv/docker/volumes/gitlab/database:/var/lib/postgresql/data
 
   mysql-server-4:
     image: mysql
@@ -95,6 +111,8 @@ services:
           - gitlab-runner
     restart: unless-stopped
     tty: true
+    depends_on:
+      - gitlab
 networks:
   net_backend:
     external:
