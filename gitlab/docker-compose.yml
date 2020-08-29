@@ -80,7 +80,7 @@ services:
         aliases:
           - phpmyadmin-4
     environment:
-      PMA_HOST: "mysql-server-3" # mysql-server
+      PMA_HOST: "mysql-server-4" # mysql-server
 
   gitlab-runner:
     image: gitlab/gitlab-runner:latest
