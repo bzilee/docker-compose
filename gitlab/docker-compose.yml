@@ -69,7 +69,7 @@ services:
     restart: unless-stopped
     tty: true
     links:
-      - "mysql-server-3"
+      - "mysql-server-4"
     volumes:
       - "./phpmyadmin/session:/sessions"
       #- "./phpmyadmin/php_ini:/usr/local/etc/php"
