@@ -1,0 +1,19 @@
+version: "3.5"
+services:
+  #Le service Reverse Proxy
+  reverse-proxy:
+    container_name: reverse-proxy
+    restart: unless-stopped
+    image: traefik:v1.7
+    command:
+      --configFile=/var/traefik/traefik.toml
+    ports:
+      - "443:443"  #Accès HTTPS
+      - "80:80"  #Accès HTTP
+      - "8090:8090"  #Accès
+    networks:
+      - traefik_gitlab_net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.toml:/var/traefik/traefik.toml:ro
+      - /srv/docker/volumes/traefik/log:/log
