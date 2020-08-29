@@ -12,8 +12,16 @@ services:
       - "80:80"  #Accès HTTP
       - "8090:8090"  #Accès
     networks:
-      - traefik_gitlab_net
+      net_backend:
+        ipv4_address: 172.21.0.20
+        aliases:
+          - reverse-proxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik.toml:/var/traefik/traefik.toml:ro
       - /srv/docker/volumes/traefik/log:/log
+
+networks:
+  net_backend:
+    external:
+      name: lugar_net_backend

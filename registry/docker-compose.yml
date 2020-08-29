@@ -31,3 +31,12 @@ services:
 #      - "traefik.port=5000"
 #      - "traefik.backend=gitlab-registry"
 #      - "traefik.frontend.entryPoints=http,https"
+    networks:
+      net_backend:
+        ipv4_address: 172.21.0.19
+        aliases:
+          - registry
+networks:
+  net_backend:
+    external:
+      name: lugar_net_backend
