@@ -101,6 +101,24 @@ services:
     restart: unless-stopped
     tty: true
 
+  dockbix-agent:
+    image: monitoringartist/dockbix-agent-xxl-limited:latest
+    privileged: true
+    container_name: dockbix-agent
+    ports:
+      - "10040:10050"
+    restart: unless-stopped
+    volumes:
+      - /:/rootfs
+      - /var/run:/var/run
+    environment:
+      ZA_Server: "zabbix-server-mysql"
+    networks:
+      net_backend:
+        ipv4_address: 172.21.0.21
+        aliases:
+          - dockbix-agent
+
   zabbix-java-gateway:
     image: zabbix/zabbix-java-gateway:ubuntu-5.0-latest
     ports:
