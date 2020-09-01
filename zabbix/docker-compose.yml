@@ -109,10 +109,10 @@ services:
       - "10040:10050"
     restart: unless-stopped
     volumes:
-      - ./dockbix-agent:/rootfs
-      - ./dockbix-agent/var/run:/var/run
+      - /:/rootfs
+      - /var/run:/var/run
     environment:
-      - "ZA_Server:zabbix-server-mysql"
+      ZA_Server: "zabbix-server-mysql"
     networks:
       net_backend:
         ipv4_address: 172.21.0.21
