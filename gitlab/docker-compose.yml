@@ -87,7 +87,7 @@ services:
     ports:
       - 8085:8080
     net_backend:
-      ipv4_address: 172.21.0.100
+      ipv4_address: 172.21.0.22
       aliases:
         - adminier
 
