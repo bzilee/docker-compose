@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2020-09-08T18:50:15Z</date>
+    <groups>
+        <group>
+            <name>Services TCP</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Service Application</template>
+            <name>Service/Application</name>
+            <groups>
+                <group>
+                    <name>Services TCP</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>Checking Services</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>MySQL Zabbix</name>
+                    <key>net.tcp.port[172.21.0.1,3306]</key>
+                    <applications>
+                        <application>
+                            <name>Checking Services</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>GitLab Service</name>
+                    <key>net.tcp.port[172.21.0.2,4000]</key>
+                    <applications>
+                        <application>
+                            <name>Checking Services</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>MySQL Jira Service</name>
+                    <key>net.tcp.port[172.21.0.4,3306]</key>
+                    <applications>
+                        <application>
+                            <name>Checking Services</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Jira Service</name>
+                    <key>net.tcp.port[172.21.0.5,1000]</key>
+                    <applications>
+                        <application>
+                            <name>Checking Services</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Jenkins Service</name>
+                    <key>net.tcp.port[172.21.0.6,2000]</key>
+                    <applications>
+                        <application>
+                            <name>Checking Services</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>MySQL Jenkins Service</name>
+                    <key>net.tcp.port[172.21.0.7,3306]</key>
+                    <applications>
+                        <application>
+                            <name>Checking Services</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Zabbix Server Service</name>
+                    <key>net.tcp.port[172.21.0.8,10051]</key>
+                    <applications>
+                        <application>
+                            <name>Checking Services</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Zabbix Web Service</name>
+                    <key>net.tcp.port[172.21.0.9,80]</key>
+                    <applications>
+                        <application>
+                            <name>Checking Services</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Zabbix Agent Service</name>
+                    <key>net.tcp.port[172.21.0.10,10050]</key>
+                    <applications>
+                        <application>
+                            <name>Checking Services</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Zabbix Gateway Service</name>
+                    <key>net.tcp.port[172.21.0.11,10052]</key>
+                    <applications>
+                        <application>
+                            <name>Checking Services</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Grafana Service</name>
+                    <key>net.tcp.port[172.21.0.14,3000]</key>
+                    <inventory_link>HOST_NETWORKS</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Checking Services</name>
+                        </application>
+                    </applications>
+                </item>
+            </items>
+        </template>
+    </templates>
+    <graphs>
+        <graph>
+            <name>Global View</name>
+            <yaxismax>1.5</yaxismax>
+            <ymin_type_1>FIXED</ymin_type_1>
+            <ymax_type_1>FIXED</ymax_type_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>DASHED_LINE</drawtype>
+                    <color>199C0D</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Service Application</host>
+                        <key>net.tcp.port[172.21.0.2,4000]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>2</sortorder>
+                    <drawtype>DASHED_LINE</drawtype>
+                    <color>F63100</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Service Application</host>
+                        <key>net.tcp.port[172.21.0.14,3000]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>3</sortorder>
+                    <drawtype>DASHED_LINE</drawtype>
+                    <color>2774A4</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Service Application</host>
+                        <key>net.tcp.port[172.21.0.6,2000]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>4</sortorder>
+                    <drawtype>DASHED_LINE</drawtype>
+                    <color>F7941D</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Service Application</host>
+                        <key>net.tcp.port[172.21.0.5,1000]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>5</sortorder>
+                    <drawtype>DASHED_LINE</drawtype>
+                    <color>FC6EA3</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Service Application</host>
+                        <key>net.tcp.port[172.21.0.7,3306]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>6</sortorder>
+                    <drawtype>DASHED_LINE</drawtype>
+                    <color>6C59DC</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Service Application</host>
+                        <key>net.tcp.port[172.21.0.4,3306]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>7</sortorder>
+                    <drawtype>DASHED_LINE</drawtype>
+                    <color>C7A72D</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Service Application</host>
+                        <key>net.tcp.port[172.21.0.1,3306]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>8</sortorder>
+                    <drawtype>DASHED_LINE</drawtype>
+                    <color>BA2A5D</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Service Application</host>
+                        <key>net.tcp.port[172.21.0.10,10050]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>9</sortorder>
+                    <drawtype>DASHED_LINE</drawtype>
+                    <color>F230E0</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Service Application</host>
+                        <key>net.tcp.port[172.21.0.11,10052]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>10</sortorder>
+                    <drawtype>DASHED_LINE</drawtype>
+                    <color>5CCD18</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Service Application</host>
+                        <key>net.tcp.port[172.21.0.8,10051]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>11</sortorder>
+                    <drawtype>DASHED_LINE</drawtype>
+                    <color>BB2A02</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Service Application</host>
+                        <key>net.tcp.port[172.21.0.9,80]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+    </graphs>
+</zabbix_export>
