@@ -1,15 +1,18 @@
-./.idea
+./.idea/
 ./jira/mysql-connector-java-5.1.49-bin.jar
-./test
+./test/
+./.github/
 
 ./zabbix/grafana_data/
 ./zabbix/mysql_data_zabbix/
 ./zabbix/phpmyadmin/
 ./zabbix/zabbix_data/
-./zabbix/dockbix-agent/
+./zabbix/zabbix_agent_config/
 
 ./jenkins/jenkins_data/
 ./jenkins/mysql_data/
 ./jenkins/phpmyadmin/
 
-
+./jira/jira_data/
+./jira/mysql_data/
+./jira/phpmyadmin/

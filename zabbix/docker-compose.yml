@@ -5,20 +5,20 @@ services:
 
   #Le service Zabbix Server
   zabbix-server-mysql:
-    image: zabbix/zabbix-server-mysql:ubuntu-5.0-latest # --> zabbix/zabbix-server-mysql:ubuntu-5.0-latest --> zabbix/zabbix-server-mysql
+    image: zabbix/zabbix-server-mysql:ubuntu-5.0.3 # --> zabbix/zabbix-server-mysql:ubuntu-5.0-latest --> zabbix/zabbix-server-mysql
     ports:
       - "10051:10051"
     container_name: zabbix-server-mysql
     volumes:
-      - ./zabbix_data/etc/localtime:/etc/localtime:ro
-      - ./zabbix_data/usr/lib/zabbix/alertscripts:/usr/lib/zabbix/alertscripts:ro
-      - ./zabbix_data/usr/lib/zabbix/externalscripts:/usr/lib/zabbix/externalscripts:ro
-      - ./zabbix_data/var/lib/zabbix/export:/var/lib/zabbix/export:rw
-      - ./zabbix_data/var/lib/zabbix/modules:/var/lib/zabbix/modules:ro
-      - ./zabbix_data/var/lib/zabbix/enc:/var/lib/zabbix/enc:ro
-      - ./zabbix_data/var/lib/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
-      - ./zabbix_data/var/lib/zabbix/mibs:/var/lib/zabbix/mibs:ro
-      - ./zabbix_data/snmptraps:/var/lib/zabbix/snmptraps:rw
+       - /etc/localtime:/etc/localtime:ro
+#      - ./zabbix_data/usr/lib/zabbix/alertscripts:/usr/lib/zabbix/alertscripts:ro
+#      - ./zabbix_data/usr/lib/zabbix/externalscripts:/usr/lib/zabbix/externalscripts:ro
+#      - ./zabbix_data/var/lib/zabbix/export:/var/lib/zabbix/export:rw
+#      - ./zabbix_data/var/lib/zabbix/modules:/var/lib/zabbix/modules:ro
+#      - ./zabbix_data/var/lib/zabbix/enc:/var/lib/zabbix/enc:ro
+#      - ./zabbix_data/var/lib/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
+#      - ./zabbix_data/var/lib/zabbix/mibs:/var/lib/zabbix/mibs:ro
+#      - ./zabbix_data/snmptraps:/var/lib/zabbix/snmptraps:rw
     links:
       - zabbix-java-gateway:zabbix-java-gateway
       - "mysql-server"
@@ -41,7 +41,7 @@ services:
     restart: unless-stopped
 
   zabbix-web-nginx-mysql:
-    image: zabbix/zabbix-web-nginx-mysql:ubuntu-5.0-latest
+    image: zabbix/zabbix-web-nginx-mysql:ubuntu-5.0.3
     ports:
       - "80:8080"
       - "443:443"
@@ -51,8 +51,8 @@ services:
       - "mysql-server"
     volumes:
       -  /etc/localtime:/etc/localtime:ro
-      - ./zabbix_data/etc/ssl/nginx:/etc/ssl/nginx:ro
-      - ./zabbix_data/usr/share/zabbix/modules/:/usr/share/zabbix/modules/:ro
+      #- ./zabbix_data/etc/ssl/nginx:/etc/ssl/nginx:ro
+      #- ./zabbix_data/usr/share/zabbix/modules/:/usr/share/zabbix/modules/:ro
     env_file:
       - .env_mysql
       - .env_zabbix
@@ -75,22 +75,81 @@ services:
     restart: unless-stopped
     tty: true
    
+#  zabbix-agent:
+#    image: zabbix/zabbix-agent:ubuntu-5.0.3
+#    ports:
+#     - "10050:10050"
+#    container_name: zabbix-agent
+#    privileged: true
+#    volumes:
+#     - /etc/localtime:/etc/localtime:ro
+#     - /var/run/docker.sock:/var/run/docker.sock
+#     #- ./zabbix_data/etc/zabbix/zabbix_agentd.d:/etc/zabbix/zabbix_agentd.d:ro
+#     #- ./zabbix_data/var/lib/zabbix/modules:/var/lib/zabbix/modules:ro
+#     #- ./zabbix_data/var/lib/zabbix/enc:/var/lib/zabbix/enc:ro
+#     #- ./zabbix_data/var/lib/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
+#    links:
+#     - zabbix-server-mysql:zabbix-server-mysql
+#     - "mysql-server"
+#    env_file:
+#     - .env_zabbix
+#    pid: "host"
+#    networks:
+#     net_backend:
+#      ipv4_address: 172.21.0.10
+#      aliases:
+#       - zabbix-agent
+#    stop_grace_period: 5s
+#    restart: unless-stopped
+#    tty: true
+
+#  zabbix-agent:
+#    image: digiapulssi/docker-monitoring-zabbix-agent
+#    ports:
+#      - "10050:10050"
+#    container_name: zabbix-agent
+#    privileged: true
+#    volumes:
+#      - /etc/localtime:/etc/localtime:ro
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - ./zabbix_agent_config:/conf/zabbix-agentd.conf
+#      #- ./zabbix_data/etc/zabbix/zabbix_agentd.d:/etc/zabbix/zabbix_agentd.d:ro
+#      #- ./zabbix_data/var/lib/zabbix/modules:/var/lib/zabbix/modules:ro
+#      #- ./zabbix_data/var/lib/zabbix/enc:/var/lib/zabbix/enc:ro
+#      #- ./zabbix_data/var/lib/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
+#    links:
+#      - zabbix-server-mysql:zabbix-server-mysql
+#      - "mysql-server"
+#    env_file:
+#      - .env_zabbix
+#    pid: "host"
+#    networks:
+#      net_backend:
+#        ipv4_address: 172.21.0.10
+#        aliases:
+#          - zabbix-agent
+#    stop_grace_period: 5s
+#    restart: unless-stopped
+#    tty: true
+
   zabbix-agent:
-    image: zabbix/zabbix-agent:ubuntu-5.0-latest
+    image: zabbix/zabbix-agent2
     ports:
      - "10050:10050"
     container_name: zabbix-agent
+    privileged: true
     volumes:
-     - ./zabbix_data/etc/localtime:/etc/localtime:ro
+     - /etc/localtime:/etc/localtime:ro
+     - /var/run/docker.sock:/var/run/docker.sock
+     - /usr/bin/docker:/usr/bin/docker
      - ./zabbix_data/etc/zabbix/zabbix_agentd.d:/etc/zabbix/zabbix_agentd.d:ro
-     - ./zabbix_data/var/lib/zabbix/modules:/var/lib/zabbix/modules:ro
-     - ./zabbix_data/var/lib/zabbix/enc:/var/lib/zabbix/enc:ro
-     - ./zabbix_data/var/lib/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
+     #- ./zabbix_data/var/lib/zabbix/modules:/var/lib/zabbix/modules:ro
+     #- ./zabbix_data/var/lib/zabbix/enc:/var/lib/zabbix/enc:ro
+     #- ./zabbix_data/var/lib/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
     links:
      - zabbix-server-mysql:zabbix-server-mysql
-     - "mysql-server"
     env_file:
-     - .env_zabbix
+     - .env_zabbix_agent
     pid: "host"
     networks:
      net_backend:
@@ -101,26 +160,8 @@ services:
     restart: unless-stopped
     tty: true
 
-  dockbix-agent:
-    image: monitoringartist/dockbix-agent-xxl-limited:latest
-    privileged: true
-    container_name: dockbix-agent
-    ports:
-      - "10040:10050"
-    restart: unless-stopped
-    volumes:
-      - /:/rootfs
-      - /var/run:/var/run
-    environment:
-      ZA_Server: "zabbix-server-mysql"
-    networks:
-      net_backend:
-        ipv4_address: 172.21.0.21
-        aliases:
-          - dockbix-agent
-
   zabbix-java-gateway:
-    image: zabbix/zabbix-java-gateway:ubuntu-5.0-latest
+    image: zabbix/zabbix-java-gateway:ubuntu-5.0.3
     ports:
      - "10052:10052"
     container_name:  zabbix-java-gateway
