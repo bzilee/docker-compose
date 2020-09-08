@@ -1,0 +1,19 @@
+dashboard:
+  image: portainer/portainer
+  ports:
+    - "9000:9000"
+  container_name: dashboard
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  networks:
+    net_backend:
+      ipv4_address: 172.21.0.23
+      aliases:
+        - dashboard
+  restart: unless-stopped
+  tty: true
+
+networks:
+  net_backend:
+    external:
+      name: lugar_net_backend
