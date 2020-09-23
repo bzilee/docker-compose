@@ -11,6 +11,7 @@ services:
     container_name: zabbix-server-mysql
     volumes:
        - /etc/localtime:/etc/localtime:ro
+       - /dev:/dev
 #      - ./zabbix_data/usr/lib/zabbix/alertscripts:/usr/lib/zabbix/alertscripts:ro
 #      - ./zabbix_data/usr/lib/zabbix/externalscripts:/usr/lib/zabbix/externalscripts:ro
 #      - ./zabbix_data/var/lib/zabbix/export:/var/lib/zabbix/export:rw
