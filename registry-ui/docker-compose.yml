@@ -1,0 +1,25 @@
+version: '3.7'
+
+# starts 4 docker containers running minio server instances.
+# using nginx reverse proxy, load balancing, you can access
+# it through port 9000.
+services:
+  registry-ui:
+    image: jc21/registry-ui
+    container_name: registry-ui
+    ports:
+      - "5500:5500"
+    environment:
+       REGISTRY_HOST: "192.168.1.11:5000"
+       REGISTRY_SSL: "false"
+       REGISTRY_DOMAIN:
+       REGISTRY_STORAGE_DELETE: "true"
+    networks:
+      net_backend:
+        ipv4_address: 172.21.0.30
+        aliases:
+          - registry-ui
+networks:
+  net_backend:
+    external:
+      name: lugar_net_backend
