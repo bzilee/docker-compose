@@ -22,64 +22,6 @@ services:
     restart: unless-stopped
     tty: true
 
-  #Le service MySQL2
-  mysql-server-3:
-    image: mysql:5.7
-    command:
-     - mysqld
-     - --character-set-server=utf8
-     - --collation-server=utf8_bin
-     - --default-authentication-plugin=mysql_native_password
-  #   - --require-secure-transport
-  #   - --ssl-ca=/run/secrets/root-ca.pem
-  #   - --ssl-cert=/run/secrets/server-cert.pem
-  #   - --ssl-key=/run/secrets/server-key.pem
-    volumes:
-      - "./mysql_data/var/lib/mysql:/var/lib/mysql:rw"
-    env_file:
-     - .env_mysql
-    container_name: mysql-server-3
-    #secrets:
-  #   - server-key.pem
-  #   - server-cert.pem
-  #   - root-ca.pem
-  #  stop_grace_period: 1m
-    ports:
-      - "3306:3306"
-    networks:
-     net_backend:
-      ipv4_address: 172.21.0.7
-      aliases:
-       - mysql-server-3
-    #Cette ligne permet de résoudre le probleme de mbind: Operation not permitted
-    security_opt: 
-      - seccomp:unconfined
-    restart: unless-stopped
-    tty: true
-
-  phpmyadmin-3:
-      image: phpmyadmin/phpmyadmin
-      ports:
-        - "8083:80"
-      container_name: phpmyadmin-3
-      env_file:
-       - .env_mysql
-      restart: unless-stopped
-      tty: true
-      links :
-        - "mysql-server-3"
-      volumes:
-       - "./phpmyadmin/session:/sessions"
-       #- "./phpmyadmin/php_ini:/usr/local/etc/php"
-       #- "./phpmyadmin/apache2_config:/etc/apache2"
-      networks:
-        net_backend:
-          ipv4_address: 172.21.0.15
-          aliases:
-            - phpmyadmin-3
-      environment:
-        PMA_HOST: "mysql-server-3" # mysql-server
-
 networks:
   net_backend:
     external:

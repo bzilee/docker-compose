@@ -9,11 +9,11 @@ services:
     ports:
       - 5000:5000
     environment:
-      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
-      REGISTRY_HTTP_TLS_KEY: /certs/domain.key
-      REGISTRY_AUTH: htpasswd
-      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
-      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+#      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
+#      REGISTRY_HTTP_TLS_KEY: /certs/domain.key
+#      REGISTRY_AUTH: htpasswd
+#      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+#      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
 #      REGISTRY_LOG_LEVEL: debug
 #      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /registry
 #      REGISTRY_AUTH_TOKEN_REALM: https://gitlab.example.com/jwt/auth    # Change url here
@@ -22,7 +22,7 @@ services:
 #      REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE: /certs/gitlab-registry.crt
 #      REGISTRY_STORAGE_DELETE_ENABLED: 'true'
     volumes:
-      - ./registry_data/data:/var/lib/registry
+      - /registry_data/data:/var/lib/registry
       #- ./registry_data/certs:/certs
       #- ./registry_data/auth:/auth
 #    labels:
@@ -33,10 +33,19 @@ services:
 #      - "traefik.frontend.entryPoints=http,https"
     networks:
       net_backend:
-        ipv4_address: 172.21.0.19
+        ipv4_address: 172.21.1.19
         aliases:
           - registry
+#networks:
+#  net_backend:
+#    external:
+#      name: lugar_net_backend
+
+
 networks:
   net_backend:
-    external:
-      name: lugar_net_backend
+    driver: bridge
+    #internal: true
+    ipam:
+      config:
+        - subnet: 172.21.1.0/24
