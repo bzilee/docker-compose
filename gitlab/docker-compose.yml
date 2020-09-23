@@ -8,7 +8,7 @@ services:
     hostname: 'gitlab.lugar.com'
     ports:
       - "8443:443" #Accès par HTTPS
-      - "4000:80" #Accès par HTTP
+      - "4001:80" #Accès par HTTP
       - "22" #Accès par SSH
     container_name: gitlab
     volumes:
@@ -71,10 +71,11 @@ services:
     image: postgres
     container_name: gitlab_database
     restart: unless-stopped
-    net_backend:
-      ipv4_address: 172.21.0.18
-      aliases:
-        - gitlab-database
+    networks:
+      net_backend:
+        ipv4_address: 172.21.0.31
+        aliases:
+          - gitlab-database
     environment:
       POSTGRES_USER: "Lugar"
       POSTGRES_PASSWORD: "Lugar2020"
@@ -86,73 +87,74 @@ services:
     restart: unless-stopped
     ports:
       - 8085:8080
-    net_backend:
-      ipv4_address: 172.21.0.22
-      aliases:
-        - adminier
-
-  mysql-server-4:
-    image: mysql
-    command:
-      - mysqld
-      - --character-set-server=utf8
-      - --collation-server=utf8_bin
-      - --default-authentication-plugin=mysql_native_password
-    #   - --require-secure-transport
-    #   - --ssl-ca=/run/secrets/root-ca.pem
-    #   - --ssl-cert=/run/secrets/server-cert.pem
-    #   - --ssl-key=/run/secrets/server-key.pem
-    volumes:
-      - "./mysql_data_gitlab/var/lib/mysql:/var/lib/mysql:rw"
-    env_file:
-      - .env_mysql
-    container_name: mysql-server-4
-    ports:
-      - "3306:3306"
-    #secrets:
-    #   - server-key.pem
-    #   - server-cert.pem
-    #   - root-ca.pem
-    #  stop_grace_period: 1m
     networks:
       net_backend:
-        ipv4_address: 172.21.0.16
+        ipv4_address: 172.21.0.22
         aliases:
-          - mysql-server-4
-    tty: true
-    #Cette ligne permet de résoudre le probleme de mbind: Operation not permitted
-    security_opt:
-      - seccomp:unconfined
-    restart: unless-stopped
+          - adminier
 
-  phpmyadmin-4:
-    image: phpmyadmin/phpmyadmin
-    ports:
-      - "8084:80"
-    container_name: phpmyadmin-4
-    env_file:
-      - .env_mysql
-    restart: unless-stopped
-    tty: true
-    links:
-      - "mysql-server-4"
-    volumes:
-      - "./phpmyadmin/session:/sessions"
-      #- "./phpmyadmin/php_ini:/usr/local/etc/php"
-      #- "./phpmyadmin/apache2_config:/etc/apache2"
-    networks:
-      net_backend:
-        ipv4_address: 172.21.0.17
-        aliases:
-          - phpmyadmin-4
-    environment:
-      PMA_HOST: "mysql-server-4" # mysql-server
+#  mysql-server-4:
+#    image: mysql
+#    command:
+#      - mysqld
+#      - --character-set-server=utf8
+#      - --collation-server=utf8_bin
+#      - --default-authentication-plugin=mysql_native_password
+#    #   - --require-secure-transport
+#    #   - --ssl-ca=/run/secrets/root-ca.pem
+#    #   - --ssl-cert=/run/secrets/server-cert.pem
+#    #   - --ssl-key=/run/secrets/server-key.pem
+#    volumes:
+#      - "./mysql_data_gitlab/var/lib/mysql:/var/lib/mysql:rw"
+#    env_file:
+#      - .env_mysql
+#    container_name: mysql-server-4
+#    ports:
+#      - "3306:3306"
+#    #secrets:
+#    #   - server-key.pem
+#    #   - server-cert.pem
+#    #   - root-ca.pem
+#    #  stop_grace_period: 1m
+#    networks:
+#      net_backend:
+#        ipv4_address: 172.21.0.16
+#        aliases:
+#          - mysql-server-4
+#    tty: true
+#    #Cette ligne permet de résoudre le probleme de mbind: Operation not permitted
+#    security_opt:
+#      - seccomp:unconfined
+#    restart: unless-stopped
+
+#  phpmyadmin-4:
+#    image: phpmyadmin/phpmyadmin
+#    ports:
+#      - "8084:80"
+#    container_name: phpmyadmin-4
+#    env_file:
+#      - .env_mysql
+#    restart: unless-stopped
+#    tty: true
+#    links:
+#      - "mysql-server-4"
+#    volumes:
+#      - "./phpmyadmin/session:/sessions"
+#      #- "./phpmyadmin/php_ini:/usr/local/etc/php"
+#      #- "./phpmyadmin/apache2_config:/etc/apache2"
+#    networks:
+#      net_backend:
+#        ipv4_address: 172.21.0.17
+#        aliases:
+#          - phpmyadmin-4
+#    environment:
+#      PMA_HOST: "mysql-server-4" # mysql-server
 
   gitlab-runner:
     image: gitlab/gitlab-runner:latest
     container_name: gitlab-runner
     volumes:
-      - ./gitlab_data/srv/gitlab-runner/config:/etc/gitlab-runner
+#      - ./gitlab_data/srv/gitlab-runner/config:/etc/gitlab-runner
       - ./gitlab_data/var/run/docker.sock:/var/run/docker.sock
     networks:
       net_backend:
@@ -160,7 +162,7 @@ services:
         aliases:
           - gitlab-runner
     restart: unless-stopped
-    tty: true
+#    tty: true
     depends_on:
       - gitlab
 networks:
